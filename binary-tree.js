@@ -8,23 +8,23 @@ const Node = (data) => {
 
 const Tree = (arr) => {
 
-    return {
-        array: mergeSort(arr),//[removeDuplicates(mergeSort(arr))],
-        root: 0,//this.buildTree(this.array, 0, array.length - 1),
+    let array = [...removeDuplicates(mergeSort(arr))];
+    let root = buildTree(array, 0, array.length -1);
 
-        buildTree(arr, start, end) {
-            if(start > end) return null;
+    //Build the tree
+    function buildTree(arr, start, end) {
+        if(start > end) return null;
+    
+        let mid = Math.floor((start + end) / 2);
+        let node = Node(arr[mid]);
+    
+        node.left = buildTree(arr, start, mid - 1);
+        node.right = buildTree(arr, mid + 1, end);
         
-            let mid = Math.floor((start + end) / 2);
-            let node = Node(arr[mid]);
-        
-            node.left = buildTree(arr, start, mid - 1);
-            node.right = buildTree(arr, mid + 1, end);
-            
-            return node;
-        }
+        return node;
     }
 
+    //Sort the array
     function mergeSort(arr) {
         if(arr.length === 0) return "Insert a value";
         if(arr.length === 1) return arr;
@@ -35,6 +35,7 @@ const Tree = (arr) => {
         return merge(mergeSort(arrLeft), mergeSort(arrRight));
     };
 
+    //Put together all sorted pieces of array
     function merge(arrLeft, arrRight) {
         const result = [];
 
@@ -61,28 +62,49 @@ const Tree = (arr) => {
 
         return result
     }
+
+    //A new way that I learned to sort arrays
+    function removeDuplicates(array) {
+        return [...new Set(array)];
+    }
+
+    //To console the binary tree in a more visual way
+    const prettyPrint = (node = root, prefix = '', isLeft = true) => {
+        if (node.right !== null) {
+          prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+        }
+        console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+        if (node.left !== null) {
+          prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+        }
+    }
+
+    function insert(value, currentRoot = root) {
+        if(value == currentRoot.data)
+            return console.log("this node already exists in the tree")
+
+        if(value < currentRoot.data) {
+            if(currentRoot.left === null)
+                return currentRoot.left = Node(value);
+            else
+                return insert(value, currentRoot.left);
+        }
+        if(value > currentRoot.data) {
+            if(currentRoot.right === null)
+                return currentRoot.right = Node(value);
+            else
+                return insert(value, currentRoot.right);
+        }
+    }
+
+    return {
+        array, 
+        root, 
+        prettyPrint,
+        insert
+    };
 }
 
-/*
-let root = null;
-
-
-function preOrder(node)
-{
-    if (node == null) return;
-
-    console.log(node.data + " ");
-    preOrder(node.left);
-    preOrder(node.right);
-}
-
-let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-let n = arr.length;
-root = buildTree(arr, 0, n - 1);
-preOrder(root);
-
-*/
-
-let myTree = Tree([2, 4, 6, 1, 3, 5]);
-
-console.log(myTree.array)
+let myTree = Tree([1, 3, 2, 5, 4]);
+myTree.insert(7);
+myTree.prettyPrint();
