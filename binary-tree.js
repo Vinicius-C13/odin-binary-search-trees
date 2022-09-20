@@ -97,14 +97,45 @@ const Tree = (arr) => {
         }
     }
 
+    function remove(value, node = root) {
+        if(node == null) return node;
+        else if(value < node.data) {
+            node.left = remove(value, node.left);
+            return node;
+        }
+        else if(value > node.data) {
+            node.right = remove(value, node.right);
+            return node;
+        }
+        else {
+            //Case 1: No child
+            if(node.left == null && node.right == null) {
+                node = null
+                return node;
+            }
+            //Case 2: One child
+            /*else if(node.left == null){
+                node = node.right;
+                return node;
+            }
+            else if(node.right == null){
+                node = node.left;
+                return node;
+            }*/
+        }
+    }
+
     return {
         array, 
         root, 
         prettyPrint,
-        insert
+        insert,
+        remove
     };
 }
 
-let myTree = Tree([1, 3, 2, 5, 4]);
-myTree.insert(7);
+let myTree = Tree([1, 3, 2, 4, 5])
+myTree.prettyPrint();
+console.log('tteste')
+myTree.remove(2);
 myTree.prettyPrint();
