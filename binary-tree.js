@@ -70,11 +70,11 @@ const Tree = (arr) => {
 
     //To console the binary tree in a more visual way
     const prettyPrint = (node = root, prefix = '', isLeft = true) => {
-        if (node.right != null) {
+        if (node.right !== null) {
           prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
         }
         console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-        if (node.left != null) {
+        if (node.left !== null) {
           prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
         }
     }
@@ -130,7 +130,9 @@ const Tree = (arr) => {
             //Case 3: Two Childs
             else {
                 let tempNode = findMin(node.right);
+                remove(tempNode.data)
                 node.data = tempNode.data;
+                return node;
             }
         }
     }
@@ -146,7 +148,5 @@ const Tree = (arr) => {
 }
 
 let myTree = Tree([1, 3, 2, 4, 5, 6, 7, 8, 9])
-//myTree.prettyPrint();
-myTree.prettyPrint();
 myTree.remove(7)
 myTree.prettyPrint();
