@@ -70,11 +70,11 @@ const Tree = (arr) => {
 
     //To console the binary tree in a more visual way
     const prettyPrint = (node = root, prefix = '', isLeft = true) => {
-        if (node.right !== null) {
+        if (node.right != null) {
           prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
         }
         console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-        if (node.left !== null) {
+        if (node.left != null) {
           prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
         }
     }
@@ -97,6 +97,11 @@ const Tree = (arr) => {
         }
     }
 
+    function findMin(node) {
+        if(node.left === null) return node;
+        else return findMin(node.left);
+    }
+
     function remove(value, node = root) {
         if(node == null) return node;
         else if(value < node.data) {
@@ -109,19 +114,24 @@ const Tree = (arr) => {
         }
         else {
             //Case 1: No child
-            if(node.left == null && node.right == null) {
+            if(node.left === null && node.right === null) {
                 node = null
                 return node;
             }
             //Case 2: One child
-            /*else if(node.left == null){
+            else if(node.left === null){
                 node = node.right;
                 return node;
             }
-            else if(node.right == null){
+            else if(node.right === null){
                 node = node.left;
                 return node;
-            }*/
+            }
+            //Case 3: Two Childs
+            else {
+                let tempNode = findMin(node.right);
+                node.data = tempNode.data;
+            }
         }
     }
 
@@ -130,12 +140,13 @@ const Tree = (arr) => {
         root, 
         prettyPrint,
         insert,
-        remove
+        remove,
+        findMin
     };
 }
 
-let myTree = Tree([1, 3, 2, 4, 5])
+let myTree = Tree([1, 3, 2, 4, 5, 6, 7, 8, 9])
+//myTree.prettyPrint();
 myTree.prettyPrint();
-console.log('tteste')
-myTree.remove(2);
+myTree.remove(7)
 myTree.prettyPrint();
