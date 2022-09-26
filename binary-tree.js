@@ -137,16 +137,40 @@ const Tree = (arr) => {
         }
     }
 
+    function find(value, currentNode = root) {
+        if(!currentNode) return "Node not found"
+        else if(value === currentNode.data) return currentNode;
+        else {
+            if(value > currentNode.data)
+                return find(value, currentNode.right);
+            else
+                return find(value, currentNode.left);
+        }
+    }
+
+    function levelOrder(method, arr = [], currentNode = root) {
+        if(currentNode) return null;
+        else {
+            arr.push(currentNode.data);
+            
+        }
+        
+    }
+
     return {
         array, 
         root, 
         prettyPrint,
         insert,
         remove,
-        findMin
+        findMin,
+        find,
+        levelOrder
     };
 }
 
-let myTree = Tree([1, 3, 2, 4, 5, 6, 7, 8, 9])
+let myTree = Tree([0, 1, 3, 2, 4, 5, 6, 7, 8, 9])
 myTree.remove(7)
 myTree.prettyPrint();
+console.log(myTree.find(11))
+
