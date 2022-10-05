@@ -241,18 +241,43 @@ function findMin(node) {
         return findMin(node.left);
 }
 
-let myTree = Tree([1, 4, 3, 2, 5, 6, 7, 8, 9]);
+function randomArray() {
+    const array = [];
+    for(let i = 0; i<10; i++) {
+        let num = Math.floor(Math.random() * 100)
+        array.push(num)
+    }
+    return array
+}
 
-myTree.remove(1)
+function ramdomNum() {
+    let num = Math.floor(Math.random() * 100) + 100
+    return num
+}
 
-myTree.prettyPrint();
+function driver() {
+    const myTree = Tree(randomArray());
+    if(myTree.isBalanced()) {
+        console.log(myTree.preorder());
+        console.log(myTree.postorder());
+        console.log(myTree.inorder());
+        myTree.insert(181);
+        myTree.insert(199);
+        myTree.insert(202);
+        myTree.insert(822);
+        myTree.insert(433);
+    }
+    if(!myTree.isBalanced()) {
+        myTree.rebalance();
+        if(myTree.isBalanced) {
+            console.log(myTree.preorder());
+            console.log(myTree.postorder());
+            console.log(myTree.inorder());
+        }
+    }
+}
 
-console.log('teste:');
-
-myTree.rebalance();
-
-
-myTree.prettyPrint()
+driver()
 
 
 
